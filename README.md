@@ -9,7 +9,7 @@ Puppet Snort Module
 
 Module for configuring Snort.
 
-Tested on RedHat Enterprise Linux 7.x with Puppet 4.4.x, Snort 2.9.8.3 and daq 2.0.6 
+Tested on CentOS 7.x with Puppet 4.4.x, Snort 2.9.8.3 and daq 2.0.6 
 
 Pull requests welcome.
 
