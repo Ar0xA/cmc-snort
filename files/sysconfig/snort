@@ -3,7 +3,7 @@
 
 # To listen only on given interfaces use this:
 #INTERFACE="eth1 eth2 eth3 eth4 eth5"
-INTERFACE=eth1
+#INTERFACE=eth1
 
 
 # Where is Snort's configuration file?

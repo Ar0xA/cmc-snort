@@ -6,13 +6,14 @@
 ###################################################
 # Step #1: Set the network variables:
 #
-ipvar HOME_NET <%= ip_ranges -%>
+
+ipvar HOME_NET <%= @home_net -%>
 
 # Set up the external network addresses as well.
-ipvar EXTERNAL_NET !$HOME_NET
+ipvar EXTERNAL_NET any
 
 # List of DNS servers on your network 
-ipvar DNS_SERVERS <%= dns_servers -%>
+ipvar DNS_SERVERS <%= @dns_servers -%>
 
 # List of SMTP servers on your network
 ipvar SMTP_SERVERS $HOME_NET
@@ -66,6 +67,7 @@ ipvar AIM_SERVERS [64.12.24.0/23,64.12.28.0/23,64.12.161.0/24,64.12.163.0/24,64.
 var RULE_PATH /etc/snort/rules
 var SO_RULE_PATH /etc/snort/so_rules
 var PREPROC_RULE_PATH /etc/snort/preproc_rules
+var COMMUNITY_RULE_PATH /etc/snort/community_rules
 
 ###################################################
 # Step #2: Configure the decoder.  For more information, see README.decode 
@@ -106,7 +108,7 @@ config detection: search-method ac-bnfa search-optimize max-pattern-len 20
 # Configure the event queue.  For more information, see README.event_queue
 config event_queue: max_queue 8 log 3 order_events content_length
 
-<% if snort_perfprofile  == "true" then %>
+<% if @snort_perfprofile  == "true" then %>
 ###################################################
 # Configure Perf Profiling for debugging
 # For more information see README.PerfProfiling
@@ -127,16 +129,16 @@ config paf_max: 16000
 # For more information, see Snort Manual, Configuring Snort - Dynamic Modules
 ###################################################
 
-<% if architecture == "x86_64" %>
+<% if @architecture == "x86_64" %>
 # path to dynamic preprocessor libraries
-dynamicpreprocessor directory /usr/lib64/snort-2.9.4_dynamicpreprocessor
+dynamicpreprocessor directory /usr/lib64/snort-2.9.8.3_dynamicpreprocessor
 # path to base preprocessor engine
-dynamicengine /usr/lib64/snort-2.9.4_dynamicengine/libsf_engine.so
+dynamicengine /usr/lib64/snort-2.9.8.3_dynamicengine/libsf_engine.so
 <% else %>
 # path to dynamic preprocessor libraries
 dynamicpreprocessor directory /usr/lib/snort-2.9.4_dynamicpreprocessor
 # path to base preprocessor engine
-dynamicengine /usr/lib/snort-2.9.4_dynamicengine/libsf_engine.so
+dynamicengine /usr/lib/snort-2.9.8.3_dynamicengine/libsf_engine.so
 <% end -%>
 
 
@@ -157,15 +159,15 @@ preprocessor stream5_global: track_tcp yes, \
    max_tcp 262144, \
    max_udp 131072, \
    max_active_responses 2, \
-   memcap <%= stream_memcap -%>, \ 
-   prune_log_max <%= stream_prune_log_max -%>, \ 
+   memcap <%= @stream_memcap -%>, \ 
+   prune_log_max <%= @stream_prune_log_max -%>, \ 
    min_response_seconds 5
 
 preprocessor stream5_tcp: policy first, \
    detect_anomalies, require_3whs 180, \
    use_static_footprint_sizes, \
-   max_queued_segs <%= stream_max_queued_segs -%>, \
-   max_queued_bytes <%= stream_max_queued_bytes -%>, \
+   max_queued_segs <%= @stream_max_queued_segs -%>, \
+   max_queued_bytes <%= @stream_max_queued_bytes -%>, \
    overlap_limit 10, \
    small_segments 3 bytes 150, \
    timeout 180
@@ -174,7 +176,7 @@ preprocessor stream5_udp: timeout 180
 
 
 # performance statistics.  For more information, see the Snort Manual, Configuring Snort - Preprocessors - Performance Monitor
-preprocessor perfmonitor: time 300 file /var/log/snort/snort.stats pktcnt <%= perfmonitor_pktcnt -%>
+preprocessor perfmonitor: time 300 file /var/log/snort/snort.stats pktcnt <%= @perfmonitor_pktcnt -%>
 
 
 # HTTP normalization and anomaly detection.  For more information, see README.http_inspect
@@ -306,7 +308,7 @@ preprocessor ssh: server_ports { 22 } \
                   enable_srvoverflow enable_protomismatch
 
 # SMB / DCE-RPC normalization and anomaly detection.  For more information, see README.dcerpc2
-preprocessor dcerpc2: memcap <%= dcerpc2_memcap -%>, events [co ]
+preprocessor dcerpc2: memcap <%= @dcerpc2_memcap -%>, events [co ]
 preprocessor dcerpc2_server: default, policy WinXP, \
     detect [smb [139,445], tcp 135, udp 135, rpc-over-http-server 593], \
     autodetect [tcp 1025:, udp 1025:, rpc-over-http-server 1025:], \
@@ -383,7 +385,7 @@ preprocessor dnp3: ports { 20000 } \
 # For more information, see Snort Manual, Configuring Snort - Output Modules
 ###################################################
 
-<% if barnyard == true -%>
+<% if @barnyard == true -%>
 # unified2
 # Recommended for most installs
 output unified2: filename /var/log/snort/snort_unified.log, limit 128
@@ -511,3 +513,4 @@ include $RULE_PATH/web-iis.rules
 include $RULE_PATH/web-misc.rules
 include $RULE_PATH/web-php.rules
 include $RULE_PATH/x11.rules
+include $COMMUNITY_RULE_PATH/community.rules

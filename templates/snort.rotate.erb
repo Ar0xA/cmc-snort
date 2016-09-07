@@ -2,7 +2,7 @@
 
 /var/log/snort/alert.log {
     daily
-    rotate <%= rotation %>
+    rotate <%= @rotation %>
     missingok
     compress
     copytruncate

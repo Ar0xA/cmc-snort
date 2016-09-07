@@ -1,0 +1,24 @@
+
+#module for Snort when also using sssd
+
+module snort-sss 1.0;
+
+require {
+        type sssd_t;
+        type sssd_var_lib_t;
+        type sssd_public_t;
+        type snort_t;
+        class sock_file write;
+        class unix_stream_socket connectto;
+        class file { read getattr open };
+        class dir search;
+}
+
+#============= snort_t ==============
+allow snort_t sssd_public_t:file { read getattr open };
+
+#!!!! This avc can be allowed using the boolean 'daemons_enable_cluster_mode'
+allow snort_t sssd_t:unix_stream_socket connectto;
+allow snort_t sssd_var_lib_t:dir search;
+allow snort_t sssd_var_lib_t:sock_file write;
+
