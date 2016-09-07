@@ -1,17 +1,17 @@
-class snort::sensor ( 
+class snort::sensor (
   $gbl_home_net = undef , #any is not allowed for external_net
-  $dns_servers = '$HOME_NET', 
-  $snort_perfprofile = false, 
-  $stream_memcap = '8388608', 
-  $stream_prune_log_max = '1048576', 
-  $stream_max_queued_segs = '2621', 
-  $stream_max_queued_bytes = '1048576', 
-  $perfmonitor_pktcnt = '10000', 
-  $dcerpc2_memcap = '102400', 
-  $enable = true, 
-  $ensure = running, 
-  $norules = false, 
-  $rotation = '7' 
+  $dns_servers = '$HOME_NET',
+  $snort_perfprofile = false,
+  $stream_memcap = '8388608',
+  $stream_prune_log_max = '1048576',
+  $stream_max_queued_segs = '2621',
+  $stream_max_queued_bytes = '1048576',
+  $perfmonitor_pktcnt = '10000',
+  $dcerpc2_memcap = '102400',
+  $enable = true,
+  $ensure = running,
+  $norules = false,
+  $rotation = '7'
 ){
     
   #it needs to be defined, it cannot be "any" because $HOME_NET cannot be !any
@@ -22,9 +22,9 @@ class snort::sensor (
     $all_ips=inline_template('<% scope["::interfaces"].split(",").each do |int| -%>
     <%= scope["::ipaddress_#{int}"]-%>/<%= IPAddr::new(scope["::netmask_#{int}"]).to_i.to_s(2).count("1")-%>
     <%- end -%>')
-    $ip_addr_array = split($all_ips, ' ').delete("")    
+    $ip_addr_array = split($all_ips, ' ').delete('')
     $tmp_home_net = inline_template('[<% (0..@ip_addr_array.length-1).each do |i| -%><%=@ip_addr_array[i] -%>,<%- end -%>')
-    $home_net = "${tmp_home_net.chop}]"
+    $home_net = "${tmp_home_net}.chop]"
   } else {
     #passed from global
     $home_net = $gbl_home_net
@@ -36,7 +36,7 @@ class snort::sensor (
   }
   package {
     'daq':
-      ensure => 'installed',
+      ensure  => 'installed',
       require => Package['snort']
   }
 
