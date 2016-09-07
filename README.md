@@ -1,4 +1,4 @@
-puppet-snort
+cmc-snort
 ============
 
 Configuration templates for snort.
@@ -18,7 +18,7 @@ Installation
 
 Clone this repo to a git directory under your Puppet modules directory:
 
-    git clone https://github.com/ConclusionMC/puppet-snort.git
+    git clone https://github.com/ConclusionMC/cmc-snort.git
 
 
 Usage
