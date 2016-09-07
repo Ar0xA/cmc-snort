@@ -41,6 +41,11 @@ This sensor module assumes you have Snort and daq available as packages for Pupp
 
 Note: if you do not specify a home_net, puppet will calculate the local networks from the interfaces and enter those in the snort.conf.
 
+Rules
+-----
+
+Snort rules should be placed in modules/snort/rules; Community rules are already included.
+
 Fork info
 ---------
 Forked from the no longer maintained https://github.com/packs/puppet-snort
