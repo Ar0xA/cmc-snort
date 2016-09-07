@@ -1,5 +1,6 @@
 class snort::sensor (
-  $gbl_home_net = undef , #any is not allowed for external_net
+  $gbl_home_net = undef,
+  $external_net = '!$HOME_NET', #note, cannot be !any 
   $dns_servers = '$HOME_NET',
   $snort_perfprofile = false,
   $stream_memcap = '8388608',
@@ -13,18 +14,17 @@ class snort::sensor (
   $norules = false,
   $rotation = '7'
 ){
-    
-  #it needs to be defined, it cannot be "any" because $HOME_NET cannot be !any
-  if $gbl_home_net == 'any' {
-    fail('$gbl_home_net cannot be \'any\' because $EXTERNAL_NET is set as the negative')
-  } elsif $gbl_home_net == undef {
-    #get local IP addresses hack
+  
+  #we shouldnt really use "any" for HOME_NET but its technically allowable
+  #Still we hack this to add all local ip's and their subnets to the HOME_NET if not defined at all
+  if $gbl_home_net == undef {
+    #get local IP addresses hack;
     $all_ips=inline_template('<% scope["::interfaces"].split(",").each do |int| -%>
     <%= scope["::ipaddress_#{int}"]-%>/<%= IPAddr::new(scope["::netmask_#{int}"]).to_i.to_s(2).count("1")-%>
     <%- end -%>')
     $ip_addr_array = split($all_ips, ' ').delete('')
-    $tmp_home_net = inline_template('[<% (0..@ip_addr_array.length-1).each do |i| -%><%=@ip_addr_array[i] -%>,<%- end -%>')
-    $home_net = "${tmp_home_net}.chop]"
+    $tmp_home_net = inline_template('[<% (0..@ip_addr_array.length-1).each do |i| -%><%=@ip_addr_array[i] -%>,<%- end -%>').chop
+    $home_net = "${tmp_home_net}]"
   } else {
     #passed from global
     $home_net = $gbl_home_net
