@@ -393,6 +393,7 @@ output unified2: filename /var/log/snort/snort_unified.log, limit 128
 <% else -%>
 # syslog
 output alert_syslog: LOG_AUTH LOG_ALERT
+output alert_fast: alert.fast
 <% end -%>
 
 include classification.config

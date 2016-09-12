@@ -3,8 +3,7 @@
 
 # To listen only on given interfaces use this:
 #INTERFACE="eth1 eth2 eth3 eth4 eth5"
-#INTERFACE=eth1
-
+INTERFACE=ALL
 
 # Where is Snort's configuration file?
 # -c {/path/to/snort.conf}
@@ -25,7 +24,6 @@ GROUP=snort
 # config order: {actions in order}
 # e.g. config order: log alert pass activation dynamic suspicious redalert
 PASS_FIRST=0
-
 
 #### Logging & Alerting
 

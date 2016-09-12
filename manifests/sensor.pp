@@ -11,8 +11,7 @@ class snort::sensor (
   $dcerpc2_memcap = '102400',
   $enable = true,
   $ensure = running,
-  $norules = false,
-  $rotation = '7'
+  $norules = false
 ){
  
   #we shouldnt really use "any" for HOME_NET but its technically allowable
@@ -143,14 +142,6 @@ class snort::sensor (
       group   => 'root',
       notify  => Service['snortd'],
       require => Package['snort']
-  }
-  
-  file {
-    '/etc/logrotate.d/snort':
-      content => template( 'snort/snort.rotate.erb'),
-      mode    => '0644',
-      owner   => 'root',
-      group   => 'root'
   }
   file {
     '/etc/cron.d/snort-clean' :

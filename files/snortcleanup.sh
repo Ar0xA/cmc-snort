@@ -1,7 +1,10 @@
 #!/bin/bash
-# Clean up unified2 logs older than current day.
+# Clean up logs older than x days
 
 DIR=/var/log/snort
-AGE=0
+AGE=30
 
-/usr/bin/find ${DIR} -type f -iname snort_unified.log\* -mtime +${AGE} -exec rm {} \;
+/usr/bin/find ${DIR} -type f  -mtime +${AGE} -exec rm {} \;
+
+#let snort rotate itself
+kill -HUP `pidof snort`
