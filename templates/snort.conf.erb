@@ -68,6 +68,7 @@ var RULE_PATH /etc/snort/rules
 var SO_RULE_PATH /etc/snort/so_rules
 var PREPROC_RULE_PATH /etc/snort/preproc_rules
 var COMMUNITY_RULE_PATH /etc/snort/community_rules
+var IPREPUTATION_LIST_PATH /etc/snort/ipreputation
 
 ###################################################
 # Step #2: Configure the decoder.  For more information, see README.decode 
@@ -379,6 +380,15 @@ preprocessor modbus: ports { 502 }
 preprocessor dnp3: ports { 20000 } \
    memcap 262144 \
    check_crc
+
+# Reputation preprocessor. For more information see README.reputation
+preprocessor reputation: \
+   memcap 500, \
+   priority whitelist, \
+   nested_ip inner, \
+   scan_local, \
+   whitelist $IPREPUTATION_LIST_PATH/white_list.rules, \
+   blacklist $IPREPUTATION_LIST_PATH/black_list.rules
 
 ###################################################
 # Step #6: Configure output plugins

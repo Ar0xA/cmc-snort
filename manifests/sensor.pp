@@ -67,6 +67,20 @@ class snort::sensor (
         require => Package['snort']
     }
     file {
+      '/etc/snort/ipreputation':
+        ensure  => directory,
+        source  => 'puppet:///modules/snort/rules/ipreputation',
+        purge   => true,
+        ignore  => '.svn',
+        recurse => true,
+        force   => true,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        notify  => Service['snortd'],
+        require => Package['snort']
+    }
+    file {
       '/etc/snort/community_rules':
         ensure  => directory,
         source  => 'puppet:///modules/snort/rules/community-rules',
