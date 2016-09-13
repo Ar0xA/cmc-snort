@@ -44,10 +44,10 @@ Note: if you do not specify a home_net, puppet will calculate the local networks
 Rules
 -----
 
-Snort rules should be placed in modules/snort/rules. 
+Snort rules should be placed in modules/snort/files/rules. 
 The VRT and community rules source is: https://www.snort.org/downloads
 
-IP reputation rules are also included in modules/snort/rules/ipreputation; No alert on this the local.rules needs added:
+IP reputation rules are also included in modules/snort/files/rules/ipreputation; No alert on this the local.rules needs added:
 
   alert ( msg: "REPUTATION_EVENT_BLACKLIST"; sid: 1; gid: 136; rev: 1; metadata: rule-type preproc ; classtype:bad-unknown; )
   alert ( msg: "REPUTATION_EVENT_WHITELIST"; sid: 2; gid: 136; rev: 1; metadata: rule-type preproc ; classtype:bad-unknown; )

@@ -1,6 +1,4 @@
 #the following IP's are explicitly whitelisted
-#our own external IP
-217.149.128.225
 
 #local ranges
 10.0.0.0/8
