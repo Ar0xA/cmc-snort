@@ -1,3 +1,5 @@
+#Sensor class for deployment
+
 class snort::sensor (
   $gbl_home_net = undef,
   $external_net = '!$HOME_NET', #note, cannot be !any 
@@ -13,9 +15,10 @@ class snort::sensor (
   $ensure = running,
   $norules = false
 ){
- 
+
   #we shouldnt really use "any" for HOME_NET but its technically allowable
-  #Still we hack this to add all local ip's and their subnets to the HOME_NET if not defined at all
+  #Still we hack this to add all local ip's and their subnets to 
+  #the HOME_NET if not defined at all
   if $gbl_home_net == undef {
     $home_net = snort_ip_cidr()
   } else {
