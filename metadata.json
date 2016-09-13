@@ -1,0 +1,41 @@
+{
+  "name": "cmc-snort",
+  "version": "v0.1",
+  "author": "ar0xa",
+  "summary": "Install and configure Snort sensor",
+  "license": "Apache-2.0",
+  "source": "https://github.com/conclusionMC/cmc-snort",
+  "project_page": "https://github.com/conclusionMC/cmc-snort",
+  "issues_url": "https://github.com/conclusionMC/cmc-snort/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu"
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "Squeeze",
+        "Wheezy",
+        "Jessie"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_range": ">= 1.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_range": ">= 1.0.0"
+    }
+  ]
+}
