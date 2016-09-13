@@ -6,5 +6,5 @@ AGE=30
 
 /usr/bin/find ${DIR} -type f  -mtime +${AGE} -exec rm {} \;
 
-#let snort rotate itself
+#let snort rotate itself, does not work for alert logs since they have no epoch in their filename
 kill -HUP `pidof snort`
