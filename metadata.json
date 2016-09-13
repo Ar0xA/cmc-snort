@@ -1,6 +1,6 @@
 {
   "name": "cmc-snort",
-  "version": "v0.1",
+  "version": "0.3",
   "author": "ar0xa",
   "summary": "Install and configure Snort sensor",
   "license": "Apache-2.0",
